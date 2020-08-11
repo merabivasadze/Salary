@@ -13,7 +13,7 @@ class AddNewUser(Resource):
     def post(self, name):
         if not UserModule.find_by_username(name):
             data = AddNewUser.parser.parse_args()
-            person = UserModule(12, name, data['password'])
+            person = UserModule(1, name, data['password'])
             person.save_to_db()
             return {"message": f"user {name} added successfully"}, 200
         return {"message": f"user {name} exists"}, 400

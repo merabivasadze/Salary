@@ -17,6 +17,7 @@ class Employee(Resource):
                         help="salary field is empty"
                         )
 
+    @jwt_required()
     def get(self, name):
         person = EmployeeModules.find_by_name(name)
         if person:
