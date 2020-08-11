@@ -16,14 +16,14 @@ class Employee(Resource):
                         required=True,
                         help="salary field is empty"
                         )
-
-    @jwt_required()
+    @jwt_required
     def get(self, name):
         person = EmployeeModules.find_by_name(name)
         if person:
             return person.json()
         return {"message": f"Person {name} does not exist"}, 404
 
+    @jwt_required
     def post(self, name):
         if EmployeeModules.find_by_name(name):
             return {"message": f"Person {name} already exists"}, 400
@@ -38,6 +38,7 @@ class Employee(Resource):
         else:
             return person.json()
 
+    @jwt_required
     def put(self, name):
         person = EmployeeModules.find_by_name(name)
         data = Employee.parser.parse_args()
@@ -52,6 +53,7 @@ class Employee(Resource):
             message = "added to list"
         return {f"{message}": person.json()}
 
+    @jwt_required
     def delete(self, name):
         person = EmployeeModules.find_by_name(name)
 
