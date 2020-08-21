@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, redirect
 from flask_restful import Api
 from flask_jwt import JWT
 from resource.AddUser import AddNewUser
@@ -15,14 +15,14 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 api = Api(app)
 jwt = JWT(app, authentification, identity)
 
+@app.route('/')
+def redirect2url():
+    return redirect("https://github.com/merabivasadze/Salary")
+
+
 api.add_resource(Employee, '/MyFirstApi/<string:name>')
 api.add_resource(MyEmployeesList, '/MyFirstApi')
 api.add_resource(AddNewUser, '/AddNewUser/<string:name>')
-
-
-@app.before_first_request
-def create_tables():
-    db.create_all()
 
 
 if __name__ == "__main__":
