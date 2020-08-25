@@ -17,7 +17,7 @@ jwt = JWT(app, authentification, identity)
 
 @app.route('/')
 def redirect2url():
-    return redirect("https://github.com/merabivasadze/Salary")
+    return redirect("https://documenter.getpostman.com/view/11858352/T1LV7hv3?version=latest")
 
 
 api.add_resource(Employee, '/MyFirstApi/<string:name>')
