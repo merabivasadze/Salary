@@ -11,11 +11,27 @@ class Employee(Resource):
                         required=True,
                         help="category field is empty"
                         )
-    parser.add_argument('salary',
+    parser.add_argument('fixedAmount',
+                        type=int,
+                        required=False,
+                        help="fixedAmount field is empty"
+                        )
+    parser.add_argument('salaryType',
                         type=int,
                         required=True,
-                        help="salary field is empty"
+                        help="salaryType field is empty"
                         )
+    parser.add_argument('percentage',
+                        type=int,
+                        required=False,
+                        help="percentage field is empty"
+                        )
+    parser.add_argument('saleAmount',
+                        type=int,
+                        required=False,
+                        help="saleAmount field is empty"
+                        )
+
     @jwt_required
     def get(self, name):
         person = EmployeeModules.find_by_name(name)
@@ -23,14 +39,14 @@ class Employee(Resource):
             return person.json()
         return {"message": f"Person {name} does not exist"}, 404
 
-    @jwt_required
+
     def post(self, name):
         if EmployeeModules.find_by_name(name):
             return {"message": f"Person {name} already exists"}, 400
 
         data = Employee.parser.parse_args()
-
-        person = EmployeeModules(1, name, data["category"], data["salary"])
+        person = EmployeeModules(1, name, data["category"], data["fixedAmount"], data['salaryType'],
+                                 data['percentage'],  data['saleAmount'])
         try:
             person.save_to_db()
         except:
@@ -44,11 +60,13 @@ class Employee(Resource):
         data = Employee.parser.parse_args()
         if person:
             person.category = data['category']
-            person.salary = data['salary']
+            person.salary_type = data['salaryType']
+            person.calculate_salary(data["fixedAmount"], data['percentage'], data['saleAmount'])
             person.save_to_db()
             message = "updated in list"
         else:
-            person = EmployeeModules(1, name, data['category'], data['salary'])
+            person = EmployeeModules(1, name, data["category"], data["fixedAmount"], data['salaryType'],
+                                     data['percentage'], data['saleAmount'])
             person.save_to_db()
             message = "added to list"
         return {f"{message}": person.json()}

@@ -8,12 +8,23 @@ class EmployeeModules(db.Model):
     name = db.Column(db.String(40))
     category = db.Column(db.String(70))
     salary = db.Column(db.FLOAT(precision=2))
+    salaryType = db.Column(db.String(15))
 
-    def __init__(self, _id, name, category, salary):
+    def __init__(self, _id, name, category, fixed_amount, salary_type, percentage, sale_amount):
         self.id = EmployeeModules.id_identificator(_id)
         self.name = name
         self.category = category
-        self.salary = salary
+        self.salary_type = salary_type
+        self.salary = self.calculate_salary(fixed_amount, percentage, sale_amount)
+
+    def calculate_salary(self, fixed_amount, percentage, sale_amount):
+        if self.salary_type == 'fixed':
+            salary = self.fixed_amount
+        elif self.salary_type == 'mixed':
+            salary = sale_amount * percentage / 100 + fixed_amount
+        else:
+            salary = sale_amount * percentage / 100
+        return salary
 
     @classmethod
     def id_identificator(cls, _id):
