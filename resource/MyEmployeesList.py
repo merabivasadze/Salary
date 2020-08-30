@@ -12,22 +12,22 @@ class Employee(Resource):
                         help="category field is empty"
                         )
     parser.add_argument('fixedAmount',
-                        type=int,
+                        type=float,
                         required=False,
                         help="fixedAmount field is empty"
                         )
     parser.add_argument('salaryType',
-                        type=int,
+                        type=str,
                         required=True,
                         help="salaryType field is empty"
                         )
     parser.add_argument('percentage',
-                        type=int,
+                        type=float,
                         required=False,
                         help="percentage field is empty"
                         )
     parser.add_argument('saleAmount',
-                        type=int,
+                        type=float,
                         required=False,
                         help="saleAmount field is empty"
                         )
@@ -54,7 +54,6 @@ class Employee(Resource):
         else:
             return person.json()
 
-    @jwt_required
     def put(self, name):
         person = EmployeeModules.find_by_name(name)
         data = Employee.parser.parse_args()
@@ -71,7 +70,6 @@ class Employee(Resource):
             message = "added to list"
         return {f"{message}": person.json()}
 
-    @jwt_required
     def delete(self, name):
         person = EmployeeModules.find_by_name(name)
 
