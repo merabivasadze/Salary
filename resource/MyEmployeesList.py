@@ -83,7 +83,7 @@ class Employee(Resource):
 
 
 class MyEmployeesList(Resource):
-    @jwt_required()
+    #@jwt_required()
     def get(self):
         persons = EmployeeModules.get_db()
         _persons = []
