@@ -20,7 +20,7 @@ class EmployeeModules(db.Model):
 
     def calculate_salary(self, fixed_amount, percentage, sale_amount):
         if self.salary_type == 'fixed':
-            salary = self.fixed_amount
+            salary = fixed_amount
         elif self.salary_type == 'mixed':
             salary = sale_amount * percentage / 100 + fixed_amount
         else:
