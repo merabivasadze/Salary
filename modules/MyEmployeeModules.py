@@ -1,4 +1,5 @@
 from db import db
+from modules.PersonalInfo import PersonalInfo
 
 
 class EmployeeModules(db.Model):
