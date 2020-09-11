@@ -1,8 +1,9 @@
 from db import db
 from modules.PersonalInfo import PersonalInfo
+from modules.Person import Person
 
 
-class EmployeeModules(db.Model):
+class EmployeeModules(db.Model, Person):
     __tablename__ = "employees"
 
     id = db.Column(db.INTEGER, primary_key=True)
@@ -12,6 +13,7 @@ class EmployeeModules(db.Model):
     salaryType = db.Column(db.String(15))
 
     def __init__(self, _id, name, category, fixed_amount, salary_type, percentage, sale_amount):
+        super().__init__(_id, name, category, salary_type)
         self.id = EmployeeModules.id_identificator(_id)
         self.name = name
         self.category = category

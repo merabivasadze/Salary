@@ -1,7 +1,8 @@
 from db import db
+from modules.Person import Person
 
 
-class PersonalInfo(db.Model):
+class PersonalInfo(db.Model, Person):
     __tablename__ = "PersonalInfo"
     id = db.Column(db.INTEGER, primary_key=True)
     name = db.Column(db.String(40))
@@ -12,7 +13,8 @@ class PersonalInfo(db.Model):
     phone = db.column(db.string(15))
     category = db.Column(db.String(70))
 
-    def __init__(self, _id, name, job_start_date, job_finish_date, address, email, phone, category):
+    def __init__(self, _id, name, salary_type, job_start_date, job_finish_date, address, email, phone, category):
+        super().__init__(_id, name, category, salary_type)
         self.id = _id
         self.name = name
         self.job_start_date = job_start_date
