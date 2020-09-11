@@ -1,12 +1,13 @@
 from modules import bonus_penalty, Category, scoring
 
-def calculate_salary(*args):
+
+def calculate_salary(argument, *args):
     switcher = {
-        1: adm(),
-        2: dist(),
-        3: prod(),
-        4: hired_emp(),
-        5: my_own()
+        1: adm(*args),
+        2: dist(*args),
+        3: prod(*args),
+        4: hired_emp(*args),
+        5: my_own(*args)
 
     }
 
