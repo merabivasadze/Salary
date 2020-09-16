@@ -22,12 +22,16 @@ class EmployeeModules(db.Model):
     def calculate_salary(self, fixed_amount, percentage, sale_amount, produced_amount, product_salary):
         if self.salary_type == 'fixed':
             salary = fixed_amount
+        elif self.salary_type == 'mixed':
+            salary = fixed_amount + sale_amount * percentage / 100
         elif self.salary_type == 'mixed_prod':
             salary = fixed_amount + produced_amount * product_salary
-        elif self.salary_type == 'mixed':
+        elif self.salary_type == 'mixed_distr':
             salary = sale_amount * percentage / 100 + fixed_amount
-        elif self.salary_type == 'by_earning':
+        elif self.salary_type == 'by_earning_distr':
             salary = sale_amount * percentage / 100
+        elif self.salary_type == 'by_earning_prod':
+            salary = produced_amount * product_salary
         else:
             salary = None
         return salary

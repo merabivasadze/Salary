@@ -73,8 +73,9 @@ class Employee(Resource):
         data = Employee.parser.parse_args()
         if person:
             person.category = data['category']
+            person.subCategory = data['subCategory']
             person.salary_type = data['salaryType']
-            person.calculate_salary(data["fixedAmount"], data['percentage'], data['saleAmount'], data["producedAmount"], data['productSalary'])
+            person.salary = person.calculate_salary(data["fixedAmount"], data['percentage'], data['saleAmount'], data['producedAmount'], data['productSalary'])
             person.save_to_db()
             message = "updated in list"
         else:
