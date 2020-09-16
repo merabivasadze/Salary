@@ -1,32 +1,35 @@
 from db import db
-from modules.PersonalInfo import PersonalInfo
-from modules.Person import Person
 
 
-class EmployeeModules(db.Model, Person):
-    __tablename__ = "employees"
+class EmployeeModules(db.Model):
+    __tablename__ = "Employees"
 
     id = db.Column(db.INTEGER, primary_key=True)
     name = db.Column(db.String(40))
     category = db.Column(db.String(70))
+    subCategory = db.Column(db.String(70))
     salary = db.Column(db.FLOAT(precision=2))
     salaryType = db.Column(db.String(15))
 
-    def __init__(self, _id, name, category, fixed_amount, salary_type, percentage, sale_amount):
-        super().__init__(_id, name, category, salary_type)
+    def __init__(self, _id, name, category, sub_category, fixed_amount, salary_type, percentage, sale_amount, produced_amount, product_salary):
         self.id = EmployeeModules.id_identificator(_id)
         self.name = name
         self.category = category
+        self.subCategory = sub_category
         self.salary_type = salary_type
-        self.salary = self.calculate_salary(fixed_amount, percentage, sale_amount)
+        self.salary = self.calculate_salary(fixed_amount, percentage, sale_amount, produced_amount, product_salary)
 
-    def calculate_salary(self, fixed_amount, percentage, sale_amount):
+    def calculate_salary(self, fixed_amount, percentage, sale_amount, produced_amount, product_salary):
         if self.salary_type == 'fixed':
             salary = fixed_amount
+        elif self.salary_type == 'mixed_prod':
+            salary = fixed_amount + produced_amount * product_salary
         elif self.salary_type == 'mixed':
             salary = sale_amount * percentage / 100 + fixed_amount
-        else:
+        elif self.salary_type == 'by_earning':
             salary = sale_amount * percentage / 100
+        else:
+            salary = None
         return salary
 
     @classmethod
@@ -41,7 +44,7 @@ class EmployeeModules(db.Model, Person):
             return _id
 
     def json(self):
-        return {"ID": self.id, "name": self.name, "category": self.category, "salary": self.salary}
+        return {"ID": self.id, "name": self.name, "category": self.category, "subCategory": self.subCategory, "salary": self.salary}
 
     @classmethod
     def find_by_name(cls, name):

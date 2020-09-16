@@ -2,19 +2,18 @@ from db import db
 from modules.Person import Person
 
 
-class PersonalInfo(db.Model, Person):
+class PersonalInfo(db.Model):
     __tablename__ = "PersonalInfo"
     id = db.Column(db.INTEGER, primary_key=True)
     name = db.Column(db.String(40))
-    job_start_date = db.column(db.string(15))
-    job_finish_date = db.column(db.string(15))
-    address = db.column(db.string(50))
-    email = db.column(db.string(15))
-    phone = db.column(db.string(15))
+    job_start_date = db.Column(db.String(15))
+    job_finish_date = db.Column(db.String(15))
+    address = db.Column(db.String(50))
+    email = db.Column(db.String(15))
+    phone = db.Column(db.String(15))
     category = db.Column(db.String(70))
 
     def __init__(self, _id, name, salary_type, job_start_date, job_finish_date, address, email, phone, category):
-        super().__init__(_id, name, category, salary_type)
         self.id = _id
         self.name = name
         self.job_start_date = job_start_date
